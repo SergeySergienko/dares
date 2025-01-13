@@ -9,16 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const tankRouter = (0, express_1.Router)();
-tankRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const db = req.app.locals.db;
-        const tanks = yield db.collection('tanks').find({}).toArray();
-        res.json(tanks);
-    }
-    catch (error) {
-        next(error);
-    }
-}));
-exports.default = tankRouter;
+exports.maintenanceController = void 0;
+exports.maintenanceController = {
+    getMaintenanceList(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const db = req.app.locals.db;
+                const maintenanceList = yield db
+                    .collection('maintenance')
+                    .find({})
+                    .toArray();
+                res.json(maintenanceList);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    },
+};

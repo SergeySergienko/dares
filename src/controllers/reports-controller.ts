@@ -1,21 +1,12 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import { ObjectId } from 'mongodb';
 
-const partRouter = Router();
-
-partRouter.get('/', async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const db = req.app.locals.db;
-    const parts = await db.collection('parts').find({}).toArray();
-    res.json(parts);
-  } catch (error) {
-    next(error);
-  }
-});
-
-partRouter.get(
-  '/report',
-  async (req: Request, res: Response, next: NextFunction) => {
+export const reportsController = {
+  async generatePartUsageReport(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
     try {
       const { alias, tankId, startDate, endDate } = req.query;
       const db = req.app.locals.db;
@@ -33,7 +24,7 @@ partRouter.get(
       }
 
       if (startDate || endDate) {
-        const dateFilter: any = {};
+        const dateFilter: Record<string, Date> = {};
 
         if (startDate) {
           dateFilter.$gte = new Date(startDate as string);
@@ -69,7 +60,5 @@ partRouter.get(
     } catch (error) {
       next(error);
     }
-  }
-);
-
-export default partRouter;
+  },
+};

@@ -1,10 +1,7 @@
-import { Router, Request, Response, NextFunction } from 'express';
+import { Request, Response, NextFunction } from 'express';
 
-const maintenanceRouter = Router();
-
-maintenanceRouter.get(
-  '/',
-  async (req: Request, res: Response, next: NextFunction) => {
+export const maintenanceController = {
+  async getMaintenanceList(req: Request, res: Response, next: NextFunction) {
     try {
       const db = req.app.locals.db;
       const maintenanceList = await db
@@ -15,7 +12,5 @@ maintenanceRouter.get(
     } catch (error) {
       next(error);
     }
-  }
-);
-
-export default maintenanceRouter;
+  },
+};

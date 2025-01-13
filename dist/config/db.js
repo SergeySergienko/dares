@@ -23,6 +23,9 @@ const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
         yield db
             .collection('tanks')
             .createIndex({ serialNumber: 1 }, { unique: true });
+        yield db
+            .collection('parts')
+            .createIndex({ alias: 1 }, { unique: true });
         return db;
     }
     catch (err) {

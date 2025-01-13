@@ -9,19 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const maintenanceRouter = (0, express_1.Router)();
-maintenanceRouter.get('/', (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const db = req.app.locals.db;
-        const maintenanceList = yield db
-            .collection('maintenance')
-            .find({})
-            .toArray();
-        res.json(maintenanceList);
-    }
-    catch (error) {
-        next(error);
-    }
-}));
-exports.default = maintenanceRouter;
+exports.partsController = void 0;
+exports.partsController = {
+    getParts(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const db = req.app.locals.db;
+                const parts = yield db.collection('parts').find({}).toArray();
+                res.json(parts);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    },
+};

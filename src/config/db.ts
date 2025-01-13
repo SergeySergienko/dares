@@ -1,4 +1,5 @@
 import { MongoClient } from 'mongodb';
+import { PartModel, TankModel } from '../models';
 
 const uri = process.env.MONGO_URI as string;
 const client = new MongoClient(uri);
@@ -15,9 +16,11 @@ export const connectDB = async () => {
     );
     const db = client.db('dares_db');
     await db
-      .collection('tanks')
+      .collection<TankModel>('tanks')
       .createIndex({ serialNumber: 1 }, { unique: true });
-
+    await db
+      .collection<PartModel>('parts')
+      .createIndex({ alias: 1 }, { unique: true });
     return db;
   } catch (err) {
     console.error('MongoDB connection error:', err);

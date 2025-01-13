@@ -17,15 +17,14 @@ const express_1 = __importDefault(require("express"));
 require("dotenv/config");
 const path_1 = __importDefault(require("path"));
 const db_1 = require("./config/db");
-const parts_1 = __importDefault(require("./routes/parts"));
-const tanks_1 = __importDefault(require("./routes/tanks"));
-const maintenance_1 = __importDefault(require("./routes/maintenance"));
+const routes_1 = require("./routes");
 const app = (0, express_1.default)();
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public'))).use(express_1.default.json());
 app
-    .use('/api/parts', parts_1.default)
-    .use('/api/tanks', tanks_1.default)
-    .use('/api/maintenance', maintenance_1.default);
+    .use('/api/maintenance', routes_1.maintenanceRouter)
+    .use('/api/parts', routes_1.partsRouter)
+    .use('/api/reports', routes_1.reportsRouter)
+    .use('/api/tanks', routes_1.tanksRouter);
 const initializeApp = () => __awaiter(void 0, void 0, void 0, function* () {
     const db = yield (0, db_1.connectDB)();
     app.locals.db = db;
