@@ -11,12 +11,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.reportsController = void 0;
 const mongodb_1 = require("mongodb");
+const db_1 = require("../config/db");
 exports.reportsController = {
     generatePartUsageReport(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { alias, tankId, startDate, endDate } = req.query;
-                const db = req.app.locals.db;
                 const pipeline = [{ $match: {} }];
                 if (tankId) {
                     pipeline[0].$match.tankId = mongodb_1.ObjectId.createFromHexString(tankId);
@@ -45,11 +45,10 @@ exports.reportsController = {
                         _id: 0,
                     },
                 });
-                const [report] = yield db
-                    .collection('maintenance')
+                const [report] = yield db_1.maintenanceCollection
                     .aggregate(pipeline)
                     .toArray();
-                res.json(report);
+                res.json(report || { total: 0 });
             }
             catch (error) {
                 next(error);

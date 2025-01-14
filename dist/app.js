@@ -14,8 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.initializeApp = void 0;
 const express_1 = __importDefault(require("express"));
-require("dotenv/config");
 const path_1 = __importDefault(require("path"));
+require("dotenv/config");
 const db_1 = require("./config/db");
 const routes_1 = require("./routes");
 const app = (0, express_1.default)();
@@ -26,8 +26,7 @@ app
     .use('/api/reports', routes_1.reportsRouter)
     .use('/api/tanks', routes_1.tanksRouter);
 const initializeApp = () => __awaiter(void 0, void 0, void 0, function* () {
-    const db = yield (0, db_1.connectDB)();
-    app.locals.db = db;
+    yield (0, db_1.connectDB)();
     return app;
 });
 exports.initializeApp = initializeApp;

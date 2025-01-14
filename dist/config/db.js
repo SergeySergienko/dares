@@ -9,23 +9,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDB = void 0;
+exports.connectDB = exports.partCollection = exports.tankCollection = exports.maintenanceCollection = void 0;
 const mongodb_1 = require("mongodb");
 const uri = process.env.MONGO_URI;
 const client = new mongodb_1.MongoClient(uri);
+const db = client.db('dares_db');
+exports.maintenanceCollection = db.collection('maintenance');
+exports.tankCollection = db.collection('tanks');
+exports.partCollection = db.collection('parts');
 const connectDB = () => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
         yield client.connect();
         console.log('\n--------------------------------------------');
         console.log('\x1b[35m%s\x1b[0m', `[OK] You successfully connected to ${((_a = client.options) === null || _a === void 0 ? void 0 : _a.appName) || 'MongoDB'}!`);
-        const db = client.db('dares_db');
-        yield db
-            .collection('tanks')
-            .createIndex({ serialNumber: 1 }, { unique: true });
-        yield db
-            .collection('parts')
-            .createIndex({ alias: 1 }, { unique: true });
+        yield exports.tankCollection.createIndex({ serialNumber: 1 }, { unique: true });
+        yield exports.partCollection.createIndex({ alias: 1 }, { unique: true });
         return db;
     }
     catch (err) {

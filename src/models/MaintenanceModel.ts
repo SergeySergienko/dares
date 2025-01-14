@@ -1,6 +1,8 @@
+import { ObjectId } from 'mongodb';
+
 export interface MaintenanceModel {
   date: Date;
-  tankId: string;
+  tankId: ObjectId;
   parts: {
     [key: string]: number;
   };

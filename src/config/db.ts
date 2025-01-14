@@ -1,8 +1,14 @@
 import { MongoClient } from 'mongodb';
-import { PartModel, TankModel } from '../models';
+import { MaintenanceModel, PartModel, TankModel } from '../models';
 
 const uri = process.env.MONGO_URI as string;
 const client = new MongoClient(uri);
+
+const db = client.db('dares_db');
+export const maintenanceCollection =
+  db.collection<MaintenanceModel>('maintenance');
+export const tankCollection = db.collection<TankModel>('tanks');
+export const partCollection = db.collection<PartModel>('parts');
 
 export const connectDB = async () => {
   try {
@@ -14,13 +20,9 @@ export const connectDB = async () => {
         client.options?.appName || 'MongoDB'
       }!`
     );
-    const db = client.db('dares_db');
-    await db
-      .collection<TankModel>('tanks')
-      .createIndex({ serialNumber: 1 }, { unique: true });
-    await db
-      .collection<PartModel>('parts')
-      .createIndex({ alias: 1 }, { unique: true });
+    await tankCollection.createIndex({ serialNumber: 1 }, { unique: true });
+    await partCollection.createIndex({ alias: 1 }, { unique: true });
+
     return db;
   } catch (err) {
     console.error('MongoDB connection error:', err);

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ObjectId } from 'mongodb';
+import { maintenanceCollection } from '../config/db';
 
 export const reportsController = {
   async generatePartUsageReport(
@@ -9,7 +10,6 @@ export const reportsController = {
   ) {
     try {
       const { alias, tankId, startDate, endDate } = req.query;
-      const db = req.app.locals.db;
 
       const pipeline: any[] = [{ $match: {} }];
 
@@ -51,12 +51,11 @@ export const reportsController = {
         }
       );
 
-      const [report] = await db
-        .collection('maintenance')
+      const [report] = await maintenanceCollection
         .aggregate(pipeline)
         .toArray();
 
-      res.json(report);
+      res.json(report || { total: 0 });
     } catch (error) {
       next(error);
     }

@@ -9,18 +9,21 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.partsController = void 0;
-const db_1 = require("../config/db");
-exports.partsController = {
-    getParts(req, res, next) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const parts = yield db_1.partCollection.find({}).toArray();
-                res.json(parts);
-            }
-            catch (error) {
-                next(error);
-            }
+exports.maintenanceService = void 0;
+const mongodb_1 = require("mongodb");
+const repositories_1 = require("../repositories");
+const utils_1 = require("../utils");
+exports.maintenanceService = {
+    createMaintenance(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ date, parts, tankId }) {
+            const newMaintenance = {
+                date: new Date(date),
+                tankId: mongodb_1.ObjectId.createFromHexString(tankId),
+                parts,
+                createdAt: new Date(),
+            };
+            const { insertedId } = yield repositories_1.maintenanceRepo.createMaintenance(newMaintenance);
+            return (0, utils_1.maintenanceModelMapper)(Object.assign(Object.assign({}, newMaintenance), { _id: insertedId }));
         });
     },
 };

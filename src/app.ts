@@ -1,6 +1,6 @@
 import express from 'express';
-import 'dotenv/config';
 import path from 'path';
+import 'dotenv/config';
 import { connectDB } from './config/db';
 import {
   maintenanceRouter,
@@ -19,7 +19,6 @@ app
   .use('/api/tanks', tanksRouter);
 
 export const initializeApp = async () => {
-  const db = await connectDB();
-  app.locals.db = db;
+  await connectDB();
   return app;
 };

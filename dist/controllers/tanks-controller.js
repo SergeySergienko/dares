@@ -10,12 +10,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.tanksController = void 0;
+const db_1 = require("../config/db");
 exports.tanksController = {
     getTanks(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const db = req.app.locals.db;
-                const tanks = yield db.collection('tanks').find({}).toArray();
+                const tanks = yield db_1.tankCollection.find({}).toArray();
                 res.json(tanks);
             }
             catch (error) {

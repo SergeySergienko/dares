@@ -9,18 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.partsController = void 0;
+exports.maintenanceRepo = void 0;
 const db_1 = require("../config/db");
-exports.partsController = {
-    getParts(req, res, next) {
+exports.maintenanceRepo = {
+    createMaintenance(maintenance) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const parts = yield db_1.partCollection.find({}).toArray();
-                res.json(parts);
-            }
-            catch (error) {
-                next(error);
-            }
+            return yield db_1.maintenanceCollection.insertOne(maintenance);
         });
     },
 };

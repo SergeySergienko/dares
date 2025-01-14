@@ -4,3 +4,4 @@ import { maintenanceController } from '../controllers';
 export const maintenanceRouter = Router();
 
 maintenanceRouter.get('/', maintenanceController.getMaintenanceList);
+maintenanceRouter.post('/', maintenanceController.createMaintenance);
