@@ -1,10 +1,17 @@
 import { ObjectId } from 'mongodb';
 import { MaintenanceModel } from '../models';
 import { maintenanceRepo } from '../repositories';
-import { MaintenanceInputDTO } from '../types';
+import { MaintenanceInputDTO, MaintenanceQuery } from '../types';
 import { maintenanceModelMapper } from '../utils';
 
 export const maintenanceService = {
+  async getMaintenanceList(queryObject: MaintenanceQuery) {
+    const maintenanceList = await maintenanceRepo.getMaintenanceList(
+      queryObject
+    );
+    return maintenanceList.map(maintenanceModelMapper);
+  },
+
   async createMaintenance({ date, parts, tankId }: MaintenanceInputDTO) {
     const newMaintenance: MaintenanceModel = {
       date: new Date(date),

@@ -14,6 +14,12 @@ const mongodb_1 = require("mongodb");
 const repositories_1 = require("../repositories");
 const utils_1 = require("../utils");
 exports.maintenanceService = {
+    getMaintenanceList(queryObject) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const maintenanceList = yield repositories_1.maintenanceRepo.getMaintenanceList(queryObject);
+            return maintenanceList.map(utils_1.maintenanceModelMapper);
+        });
+    },
     createMaintenance(_a) {
         return __awaiter(this, arguments, void 0, function* ({ date, parts, tankId }) {
             const newMaintenance = {

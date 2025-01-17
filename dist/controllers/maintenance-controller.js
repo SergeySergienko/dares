@@ -11,12 +11,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.maintenanceController = void 0;
 const services_1 = require("../services");
-const db_1 = require("../config/db");
 exports.maintenanceController = {
     getMaintenanceList(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const maintenanceList = yield db_1.maintenanceCollection.find({}).toArray();
+                const maintenanceList = yield services_1.maintenanceService.getMaintenanceList(req.query);
                 res.json(maintenanceList);
             }
             catch (error) {

@@ -16,3 +16,15 @@ export type MaintenanceOutputDTO = {
   createdAt: Date;
   updatedAt?: Date;
 };
+
+export type MaintenanceQuery = {
+  id?: string;
+  startDate?: string;
+  endDate?: string;
+  tankId?: string;
+  part?: string;
+  limit?: string;
+  sortBy?: 'date' | 'tankId';
+  sortOrder?: 'asc' | 'desc';
+  page?: string;
+};

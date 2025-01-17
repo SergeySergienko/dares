@@ -2,15 +2,22 @@ import { Request, Response, NextFunction } from 'express';
 import {
   MaintenanceInputDTO,
   MaintenanceOutputDTO,
+  MaintenanceQuery,
   RequestWithBody,
+  RequestWithQuery,
 } from '../types';
 import { maintenanceService } from '../services';
-import { maintenanceCollection } from '../config/db';
 
 export const maintenanceController = {
-  async getMaintenanceList(req: Request, res: Response, next: NextFunction) {
+  async getMaintenanceList(
+    req: RequestWithQuery<MaintenanceQuery>,
+    res: Response<MaintenanceOutputDTO[]>,
+    next: NextFunction
+  ) {
     try {
-      const maintenanceList = await maintenanceCollection.find({}).toArray();
+      const maintenanceList = await maintenanceService.getMaintenanceList(
+        req.query
+      );
       res.json(maintenanceList);
     } catch (error) {
       next(error);
