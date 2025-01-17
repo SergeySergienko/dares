@@ -18,6 +18,7 @@ const path_1 = __importDefault(require("path"));
 require("dotenv/config");
 const db_1 = require("./config/db");
 const routes_1 = require("./routes");
+const middlewares_1 = require("./middlewares");
 const app = (0, express_1.default)();
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public'))).use(express_1.default.json());
 app
@@ -25,6 +26,7 @@ app
     .use('/api/parts', routes_1.partsRouter)
     .use('/api/reports', routes_1.reportsRouter)
     .use('/api/tanks', routes_1.tanksRouter);
+app.use(middlewares_1.errorMiddleware);
 const initializeApp = () => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, db_1.connectDB)();
     return app;

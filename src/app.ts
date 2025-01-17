@@ -8,6 +8,7 @@ import {
   reportsRouter,
   tanksRouter,
 } from './routes';
+import { errorMiddleware } from './middlewares';
 
 const app = express();
 app.use(express.static(path.join(__dirname, 'public'))).use(express.json());
@@ -17,6 +18,8 @@ app
   .use('/api/parts', partsRouter)
   .use('/api/reports', reportsRouter)
   .use('/api/tanks', tanksRouter);
+
+app.use(errorMiddleware);
 
 export const initializeApp = async () => {
   await connectDB();

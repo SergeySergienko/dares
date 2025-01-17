@@ -13,10 +13,14 @@ exports.maintenanceService = void 0;
 const mongodb_1 = require("mongodb");
 const repositories_1 = require("../repositories");
 const utils_1 = require("../utils");
+const api_error_1 = require("../exceptions/api-error");
 exports.maintenanceService = {
     getMaintenanceList(queryObject) {
         return __awaiter(this, void 0, void 0, function* () {
             const maintenanceList = yield repositories_1.maintenanceRepo.getMaintenanceList(queryObject);
+            if (!maintenanceList) {
+                throw api_error_1.ApiError.ServerError('Failed to fetch maintenance records.');
+            }
             return maintenanceList.map(utils_1.maintenanceModelMapper);
         });
     },
@@ -29,6 +33,8 @@ exports.maintenanceService = {
                 createdAt: new Date(),
             };
             const { insertedId } = yield repositories_1.maintenanceRepo.createMaintenance(newMaintenance);
+            if (!insertedId)
+                throw api_error_1.ApiError.ServerError('Failed to create maintenance record. Please try again later.');
             return (0, utils_1.maintenanceModelMapper)(Object.assign(Object.assign({}, newMaintenance), { _id: insertedId }));
         });
     },
