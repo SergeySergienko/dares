@@ -1,10 +1,17 @@
 import { MongoClient } from 'mongodb';
-import { MaintenanceModel, PartModel, TankModel } from '../models';
+import {
+  InspectionModel,
+  MaintenanceModel,
+  PartModel,
+  TankModel,
+} from '../models';
 
 const uri = process.env.MONGO_URI as string;
 const client = new MongoClient(uri);
 
 const db = client.db('dares_db');
+export const inspectionCollection =
+  db.collection<InspectionModel>('inspection');
 export const maintenanceCollection =
   db.collection<MaintenanceModel>('maintenance');
 export const tankCollection = db.collection<TankModel>('tanks');

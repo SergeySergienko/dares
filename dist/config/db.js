@@ -9,11 +9,12 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.connectDB = exports.partCollection = exports.tankCollection = exports.maintenanceCollection = void 0;
+exports.connectDB = exports.partCollection = exports.tankCollection = exports.maintenanceCollection = exports.inspectionCollection = void 0;
 const mongodb_1 = require("mongodb");
 const uri = process.env.MONGO_URI;
 const client = new mongodb_1.MongoClient(uri);
 const db = client.db('dares_db');
+exports.inspectionCollection = db.collection('inspection');
 exports.maintenanceCollection = db.collection('maintenance');
 exports.tankCollection = db.collection('tanks');
 exports.partCollection = db.collection('parts');

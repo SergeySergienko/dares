@@ -9,18 +9,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tanksController = void 0;
-const services_1 = require("../services");
-exports.tanksController = {
-    getTanks(req, res, next) {
+exports.tanksService = void 0;
+const api_error_1 = require("../exceptions/api-error");
+const repositories_1 = require("../repositories");
+const utils_1 = require("../utils");
+exports.tanksService = {
+    getTanks(queryObject) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const tanks = yield services_1.tanksService.getTanks(req.query);
-                res.json(tanks);
+            const tanks = yield repositories_1.tanksRepo.getTanks(queryObject);
+            if (!tanks) {
+                throw api_error_1.ApiError.ServerError('Failed to fetch tank records.');
             }
-            catch (error) {
-                next(error);
-            }
+            return tanks.map(utils_1.tankModelMapper);
         });
     },
 };

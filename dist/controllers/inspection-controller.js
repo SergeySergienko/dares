@@ -9,14 +9,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.tanksController = void 0;
+exports.inspectionController = void 0;
 const services_1 = require("../services");
-exports.tanksController = {
-    getTanks(req, res, next) {
+exports.inspectionController = {
+    getInspectionList(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const tanks = yield services_1.tanksService.getTanks(req.query);
-                res.json(tanks);
+                const inspectionList = yield services_1.inspectionService.getInspectionList(req.query);
+                res.json(inspectionList);
             }
             catch (error) {
                 next(error);
