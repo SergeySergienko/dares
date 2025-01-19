@@ -35,7 +35,7 @@ export const inspectionRepo = {
 
     return await inspectionCollection
       .find(filter)
-      .sort({ [sortBy as string]: sortOrder })
+      .sort({ [sortBy]: sortOrder })
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit))
       .toArray();

@@ -1,12 +1,13 @@
 export interface TankModel {
-  tankNumber: number;
+  internalNumber: number;
   serialNumber: string;
+  manufacturer: string;
+  workPressure: number;
   material: Material;
   volume: number;
   lastHydrotestDate: Date;
   lastInspectionDate: Date;
-  hydrotestPeriod: number;
-  inspectionPeriod: number;
+  color?: string;
   grade?: Grade;
   manufactureDate?: Date;
   terminationDate?: Date;
@@ -14,6 +15,6 @@ export interface TankModel {
   updatedAt?: Date;
 }
 
-export type Material = 'Aluminium' | 'Steel';
+export type Material = 'Aluminium' | 'Steel' | 'FRP' | 'Carbon Composite';
 
 export type Grade = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;

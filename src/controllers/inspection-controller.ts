@@ -1,11 +1,15 @@
 import { NextFunction, Response } from 'express';
-import { InspectionQuery, RequestWithQuery } from '../types';
+import {
+  InspectionOutputDTO,
+  InspectionQuery,
+  RequestWithQuery,
+} from '../types';
 import { inspectionService } from '../services';
 
 export const inspectionController = {
   async getInspectionList(
     req: RequestWithQuery<InspectionQuery>,
-    res: Response,
+    res: Response<InspectionOutputDTO[]>,
     next: NextFunction
   ) {
     try {

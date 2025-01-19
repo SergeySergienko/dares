@@ -1,6 +1,7 @@
 import { ApiError } from '../exceptions/api-error';
 import { inspectionRepo } from '../repositories/inspection-repo';
 import { InspectionQuery } from '../types';
+import { inspectionModelMapper } from '../utils';
 
 export const inspectionService = {
   async getInspectionList(queryObject: InspectionQuery) {
@@ -9,6 +10,6 @@ export const inspectionService = {
       throw ApiError.ServerError('Failed to fetch inspection records.');
     }
 
-    // return inspectionList.map(maintenanceModelMapper);
+    return inspectionList.map(inspectionModelMapper);
   },
 };

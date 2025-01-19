@@ -22,6 +22,7 @@ const middlewares_1 = require("./middlewares");
 const app = (0, express_1.default)();
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public'))).use(express_1.default.json());
 app
+    .use('/api/inspection', routes_1.inspectionRouter)
     .use('/api/maintenance', routes_1.maintenanceRouter)
     .use('/api/parts', routes_1.partsRouter)
     .use('/api/reports', routes_1.reportsRouter)

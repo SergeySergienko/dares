@@ -3,6 +3,7 @@ import path from 'path';
 import 'dotenv/config';
 import { connectDB } from './config/db';
 import {
+  inspectionRouter,
   maintenanceRouter,
   partsRouter,
   reportsRouter,
@@ -14,6 +15,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public'))).use(express.json());
 
 app
+  .use('/api/inspection', inspectionRouter)
   .use('/api/maintenance', maintenanceRouter)
   .use('/api/parts', partsRouter)
   .use('/api/reports', reportsRouter)

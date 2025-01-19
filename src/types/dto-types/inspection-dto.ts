@@ -1,21 +1,9 @@
-// export type MaintenanceInputDTO = {
-//   date: string; // yyyy-mm-dd
-//   tankId: string;
-//   parts: {
-//     [key: string]: number;
-//   };
-// };
+import { InspectionModel } from '../../models';
 
-// export type MaintenanceOutputDTO = {
-//   id: string;
-//   date: Date;
-//   tankId: string;
-//   parts: {
-//     [key: string]: number;
-//   };
-//   createdAt: Date;
-//   updatedAt?: Date;
-// };
+export type InspectionOutputDTO = Omit<InspectionModel, 'tankId'> & {
+  id: string;
+  tankId: string;
+};
 
 export type InspectionQuery = {
   id?: string;

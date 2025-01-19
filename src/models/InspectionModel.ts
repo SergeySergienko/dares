@@ -9,42 +9,28 @@ export interface InspectionModel {
     odor: boolean;
     bow: boolean;
     bulges: boolean;
-    bellLike?: 'yes' | 'no';
+    hammerToneTest?: 'yes' | 'no';
     corrosion: boolean;
     description: string;
     damageLocation: string;
     verdict: 'acceptable' | 'marginal' | 'condemn';
   };
   internal: {
-    content: string;
     description: string;
-    damageLocation: string;
     verdict: 'acceptable' | 'marginal' | 'condemn';
   };
   threading: {
     description: string;
-    damagedThreadsAmount: number;
-    crackAssessment: string;
-    oRingAssessment: string;
-    verdict: 'acceptable' | 'marginal' | 'condemn';
-  };
-  eddyCurrentTest: {
-    instrument: string;
-    model: string;
-    serialNumber: string;
     verdict: 'acceptable' | 'marginal' | 'condemn';
   };
   valve: {
+    type: 'YOKE' | 'DIN' | 'Other';
     burstDiskReplaced: boolean;
-    oRing: boolean;
-    dipTube: boolean;
-    serviceNeeded: boolean;
+    oRingReplaced: boolean;
+    dipTubeReplaced: boolean;
+    description: string;
   };
   tankVerdict: 'acceptable' | 'marginal' | 'condemn';
-  sticker: {
-    internalNumber: number;
-    date: Date;
-  };
   createdAt: Date;
   updatedAt?: Date;
 }

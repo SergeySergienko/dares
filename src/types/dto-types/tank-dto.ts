@@ -1,25 +1,12 @@
-import { Grade, Material } from '../../models';
+import { Grade, Material, TankModel } from '../../models';
 
-export type TankOutputDTO = {
+export type TankOutputDTO = TankModel & {
   id: string;
-  tankNumber: number;
-  serialNumber: string;
-  material: Material;
-  volume: number;
-  lastHydrotestDate: Date;
-  lastInspectionDate: Date;
-  hydrotestPeriod: number;
-  inspectionPeriod: number;
-  grade?: Grade;
-  manufactureDate?: Date;
-  terminationDate?: Date;
-  createdAt: Date;
-  updatedAt?: Date;
 };
 
 export type TankQuery = {
   id?: string;
-  tankNumber?: string;
+  internalNumber?: string;
   serialNumber?: string;
   material?: Material;
   volume?: string;
@@ -30,7 +17,7 @@ export type TankQuery = {
   startGradeValue?: `${Grade}`;
   endGradeValue?: `${Grade}`;
   limit?: string;
-  sortBy?: 'date' | 'tankNumber';
+  sortBy?: 'internalNumber' | 'lastHydrotestDate' | 'lastInspectionDate';
   sortOrder?: 'asc' | 'desc';
   page?: string;
 };

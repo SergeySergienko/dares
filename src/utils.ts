@@ -1,6 +1,17 @@
 import { WithId } from 'mongodb';
-import { Grade, MaintenanceModel, TankModel } from './models';
-import { MaintenanceOutputDTO, TankOutputDTO } from './types';
+import { Grade, InspectionModel, MaintenanceModel, TankModel } from './models';
+import {
+  InspectionOutputDTO,
+  MaintenanceOutputDTO,
+  TankOutputDTO,
+} from './types';
+
+export const inspectionModelMapper = (
+  inspection: WithId<InspectionModel>
+): InspectionOutputDTO => {
+  const { _id, tankId, ...rest } = inspection;
+  return { id: _id.toString(), tankId: tankId.toString(), ...rest };
+};
 
 export const maintenanceModelMapper = (
   maintenance: WithId<MaintenanceModel>

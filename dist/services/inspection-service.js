@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.inspectionService = void 0;
 const api_error_1 = require("../exceptions/api-error");
 const inspection_repo_1 = require("../repositories/inspection-repo");
+const utils_1 = require("../utils");
 exports.inspectionService = {
     getInspectionList(queryObject) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -19,7 +20,7 @@ exports.inspectionService = {
             if (!inspectionList) {
                 throw api_error_1.ApiError.ServerError('Failed to fetch inspection records.');
             }
-            // return inspectionList.map(maintenanceModelMapper);
+            return inspectionList.map(utils_1.inspectionModelMapper);
         });
     },
 };

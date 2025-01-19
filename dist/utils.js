@@ -11,7 +11,12 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isValidGrade = exports.tankModelMapper = exports.maintenanceModelMapper = void 0;
+exports.isValidGrade = exports.tankModelMapper = exports.maintenanceModelMapper = exports.inspectionModelMapper = void 0;
+const inspectionModelMapper = (inspection) => {
+    const { _id, tankId } = inspection, rest = __rest(inspection, ["_id", "tankId"]);
+    return Object.assign({ id: _id.toString(), tankId: tankId.toString() }, rest);
+};
+exports.inspectionModelMapper = inspectionModelMapper;
 const maintenanceModelMapper = (maintenance) => {
     const { _id, tankId } = maintenance, rest = __rest(maintenance, ["_id", "tankId"]);
     return Object.assign({ id: _id.toString(), tankId: tankId.toString() }, rest);

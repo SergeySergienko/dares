@@ -7,7 +7,7 @@ import { isValidGrade } from '../utils';
 export const tanksRepo = {
   async getTanks({
     id,
-    tankNumber,
+    internalNumber,
     serialNumber,
     material,
     volume,
@@ -18,8 +18,8 @@ export const tanksRepo = {
     startGradeValue,
     endGradeValue,
     limit = '10',
-    sortBy = 'date',
-    sortOrder = 'desc',
+    sortBy = 'internalNumber',
+    sortOrder = 'asc',
     page = '1',
   }: TankQuery) {
     const filter: Filter<TankModel> = {};
@@ -28,8 +28,8 @@ export const tanksRepo = {
       filter._id = ObjectId.createFromHexString(id);
     }
 
-    if (tankNumber) {
-      filter.tankNumber = Number(tankNumber);
+    if (internalNumber) {
+      filter.tankNumber = Number(internalNumber);
     }
 
     if (serialNumber) {
@@ -90,7 +90,7 @@ export const tanksRepo = {
 
     return await tankCollection
       .find(filter)
-      .sort({ [sortBy as string]: sortOrder })
+      .sort({ [sortBy]: sortOrder })
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit))
       .toArray();
