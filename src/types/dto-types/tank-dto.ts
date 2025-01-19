@@ -4,6 +4,13 @@ export type TankOutputDTO = TankModel & {
   id: string;
 };
 
+export type TankUpdateDTO = Omit<
+  Partial<TankModel>,
+  'createdAt' | 'updatedAt'
+> & {
+  id: string;
+};
+
 export type TankQuery = {
   id?: string;
   internalNumber?: string;

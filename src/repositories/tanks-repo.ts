@@ -1,6 +1,6 @@
 import { Filter, ObjectId } from 'mongodb';
 import { TankModel } from '../models';
-import { TankQuery } from '../types';
+import { TankQuery, TankUpdateDTO } from '../types';
 import { tankCollection } from '../config/db';
 import { isValidGrade } from '../utils';
 
@@ -94,5 +94,27 @@ export const tanksRepo = {
       .limit(Number(limit))
       .skip((Number(page) - 1) * Number(limit))
       .toArray();
+  },
+
+  async updateTank(updateData: TankUpdateDTO) {
+    const { id, ...fieldsToUpdate } = updateData;
+
+    const updateFields = Object.entries(fieldsToUpdate).reduce(
+      (acc, [key, value]) => {
+        if (value !== undefined) {
+          (acc as any)[key] = value;
+        }
+        return acc;
+      },
+      {}
+    );
+
+    const result = await tankCollection.findOneAndUpdate(
+      { _id: ObjectId.createFromHexString(id) },
+      { $set: { ...updateFields, updatedAt: new Date() } },
+      { returnDocument: 'after', includeResultMetadata: true }
+    );
+
+    return result.value;
   },
 };

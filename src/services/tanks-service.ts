@@ -1,6 +1,6 @@
 import { ApiError } from '../exceptions/api-error';
 import { tanksRepo } from '../repositories';
-import { TankQuery } from '../types';
+import { TankQuery, TankUpdateDTO } from '../types';
 import { tankModelMapper } from '../utils';
 
 export const tanksService = {
@@ -11,5 +11,14 @@ export const tanksService = {
     }
 
     return tanks.map(tankModelMapper);
+  },
+
+  async updateTank(updateData: TankUpdateDTO) {
+    const updatedTank = await tanksRepo.updateTank(updateData);
+    if (!updatedTank) {
+      throw ApiError.NotFound(`Tank with id: ${updateData.id} wasn't found`);
+    }
+
+    return tankModelMapper(updatedTank);
   },
 };

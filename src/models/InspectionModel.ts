@@ -3,7 +3,7 @@ import { ObjectId } from 'mongodb';
 export interface InspectionModel {
   date: Date;
   tankId: ObjectId;
-  external: {
+  external?: {
     heatDamage: boolean;
     repainting: boolean;
     odor: boolean;
@@ -13,24 +13,26 @@ export interface InspectionModel {
     corrosion: boolean;
     description: string;
     damageLocation: string;
-    verdict: 'acceptable' | 'marginal' | 'condemn';
+    verdict: Verdict;
   };
-  internal: {
+  internal?: {
     description: string;
-    verdict: 'acceptable' | 'marginal' | 'condemn';
+    verdict: Verdict;
   };
-  threading: {
+  threading?: {
     description: string;
-    verdict: 'acceptable' | 'marginal' | 'condemn';
+    verdict: Verdict;
   };
-  valve: {
+  valve?: {
     type: 'YOKE' | 'DIN' | 'Other';
     burstDiskReplaced: boolean;
     oRingReplaced: boolean;
     dipTubeReplaced: boolean;
     description: string;
   };
-  tankVerdict: 'acceptable' | 'marginal' | 'condemn';
+  tankVerdict: Verdict;
   createdAt: Date;
   updatedAt?: Date;
 }
+
+export type Verdict = 'acceptable' | 'marginal' | 'condemn';

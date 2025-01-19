@@ -23,4 +23,13 @@ exports.tanksService = {
             return tanks.map(utils_1.tankModelMapper);
         });
     },
+    updateTank(updateData) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const updatedTank = yield repositories_1.tanksRepo.updateTank(updateData);
+            if (!updatedTank) {
+                throw api_error_1.ApiError.NotFound(`Tank with id: ${updateData.id} wasn't found`);
+            }
+            return (0, utils_1.tankModelMapper)(updatedTank);
+        });
+    },
 };

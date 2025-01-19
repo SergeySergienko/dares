@@ -12,8 +12,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.reportsController = void 0;
 const mongodb_1 = require("mongodb");
 const db_1 = require("../config/db");
+const services_1 = require("../services");
 exports.reportsController = {
-    generatePartUsageReport(req, res, next) {
+    generatePartsUsageReport(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { alias, tankId, startDate, endDate } = req.query;
@@ -49,6 +50,21 @@ exports.reportsController = {
                     .aggregate(pipeline)
                     .toArray();
                 res.json(report || { total: 0 });
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    },
+    generateInspectionReport(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { inspectionId, tankId } = req.params;
+                const report = yield services_1.reportsService.generateInspectionReport({
+                    inspectionId,
+                    tankId,
+                });
+                res.json(report);
             }
             catch (error) {
                 next(error);

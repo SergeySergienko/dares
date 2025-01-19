@@ -1,4 +1,10 @@
-import { InspectionModel } from '../../models';
+import { InspectionModel, Verdict } from '../../models';
+
+export type InspectionInputDTO = {
+  date: string; // yyyy-mm-dd
+  tankId: string;
+  tankVerdict: Verdict;
+};
 
 export type InspectionOutputDTO = Omit<InspectionModel, 'tankId'> & {
   id: string;

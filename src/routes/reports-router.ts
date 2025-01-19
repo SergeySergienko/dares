@@ -1,6 +1,14 @@
 import { Router } from 'express';
-import { reportsController } from '../controllers';
+import { reportsController, inspectionController } from '../controllers';
 
 export const reportsRouter = Router();
 
-reportsRouter.get('/', reportsController.generatePartUsageReport);
+reportsRouter.get(
+  '/maintenance/partsUsage',
+  reportsController.generatePartsUsageReport
+);
+
+reportsRouter.get(
+  '/inspection/evaluationForm/:inspectionId/:tankId',
+  reportsController.generateInspectionReport
+);

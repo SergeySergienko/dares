@@ -23,4 +23,15 @@ exports.inspectionController = {
             }
         });
     },
+    createInspection(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const inspection = yield services_1.inspectionService.createInspection(req.body);
+                res.status(201).json(inspection);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    },
 };

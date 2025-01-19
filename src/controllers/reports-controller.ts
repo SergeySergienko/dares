@@ -1,9 +1,11 @@
 import { Request, Response, NextFunction } from 'express';
 import { ObjectId } from 'mongodb';
 import { maintenanceCollection } from '../config/db';
+import { InspectionReportInputDTO, RequestWithParams } from '../types';
+import { reportsService } from '../services';
 
 export const reportsController = {
-  async generatePartUsageReport(
+  async generatePartsUsageReport(
     req: Request,
     res: Response,
     next: NextFunction
@@ -56,6 +58,23 @@ export const reportsController = {
         .toArray();
 
       res.json(report || { total: 0 });
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async generateInspectionReport(
+    req: RequestWithParams<InspectionReportInputDTO>,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { inspectionId, tankId } = req.params;
+      const report = await reportsService.generateInspectionReport({
+        inspectionId,
+        tankId,
+      });
+      res.json(report);
     } catch (error) {
       next(error);
     }

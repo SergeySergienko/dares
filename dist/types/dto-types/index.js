@@ -17,3 +17,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 __exportStar(require("./maintenance-dto"), exports);
 __exportStar(require("./inspection-dto"), exports);
 __exportStar(require("./tank-dto"), exports);
+__exportStar(require("./report-dto"), exports);

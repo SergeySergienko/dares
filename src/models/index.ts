@@ -1,3 +1,4 @@
+export * from './HydroTestModel';
 export * from './InspectionModel';
 export * from './MaintenanceModel';
 export * from './PartModel';
