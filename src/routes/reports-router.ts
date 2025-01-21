@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { reportsController, inspectionController } from '../controllers';
+import { reportsController } from '../controllers';
 
 export const reportsRouter = Router();
 
@@ -9,6 +9,11 @@ reportsRouter.get(
 );
 
 reportsRouter.get(
-  '/inspection/evaluationForm/:inspectionId/:tankId',
+  '/inspection/generate/:inspectionId/:tankId',
   reportsController.generateInspectionReport
+);
+
+reportsRouter.get(
+  '/inspection/generateLast/:tankId',
+  reportsController.generateLastInspectionReport
 );

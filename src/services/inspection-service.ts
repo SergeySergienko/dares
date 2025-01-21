@@ -1,10 +1,10 @@
 import { ObjectId } from 'mongodb';
 import { ApiError } from '../exceptions/api-error';
 import { InspectionModel } from '../models';
-import { inspectionRepo } from '../repositories/inspection-repo';
 import { InspectionInputDTO, InspectionQuery } from '../types';
 import { inspectionModelMapper } from '../utils';
-import { tanksService } from './tanks-service';
+import { inspectionRepo } from '../repositories';
+import { tanksService } from '.';
 
 export const inspectionService = {
   async getInspectionList(queryObject: InspectionQuery) {

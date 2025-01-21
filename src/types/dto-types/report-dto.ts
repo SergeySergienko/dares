@@ -1,4 +1,4 @@
 export type InspectionReportInputDTO = {
-  inspectionId: string;
-  tankId: string;
+  inspectionId?: string;
+  tankId?: string;
 };

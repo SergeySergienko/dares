@@ -74,6 +74,24 @@ export const reportsController = {
         inspectionId,
         tankId,
       });
+
+      res.json(report);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async generateLastInspectionReport(
+    req: RequestWithParams<InspectionReportInputDTO>,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { tankId } = req.params;
+      const report = await reportsService.generateLastInspectionReport({
+        tankId,
+      });
+
       res.json(report);
     } catch (error) {
       next(error);

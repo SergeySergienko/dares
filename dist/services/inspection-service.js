@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.inspectionService = void 0;
 const mongodb_1 = require("mongodb");
 const api_error_1 = require("../exceptions/api-error");
-const inspection_repo_1 = require("../repositories/inspection-repo");
 const utils_1 = require("../utils");
-const tanks_service_1 = require("./tanks-service");
+const repositories_1 = require("../repositories");
+const _1 = require(".");
 exports.inspectionService = {
     getInspectionList(queryObject) {
         return __awaiter(this, void 0, void 0, function* () {
-            const inspectionList = yield inspection_repo_1.inspectionRepo.getInspectionList(queryObject);
+            const inspectionList = yield repositories_1.inspectionRepo.getInspectionList(queryObject);
             if (!inspectionList) {
                 throw api_error_1.ApiError.ServerError('Failed to fetch inspection records.');
             }
@@ -33,10 +33,10 @@ exports.inspectionService = {
                 tankVerdict,
                 createdAt: new Date(),
             };
-            const { insertedId } = yield inspection_repo_1.inspectionRepo.createInspection(newInspection);
+            const { insertedId } = yield repositories_1.inspectionRepo.createInspection(newInspection);
             if (!insertedId)
                 throw api_error_1.ApiError.ServerError('Failed to create inspection record. Please try again later.');
-            yield tanks_service_1.tanksService.updateTank({
+            yield _1.tanksService.updateTank({
                 id: tankId,
                 lastInspectionDate: new Date(date),
             });

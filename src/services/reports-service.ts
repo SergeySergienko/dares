@@ -1,7 +1,6 @@
 import { ApiError } from '../exceptions/api-error';
 import { InspectionReportInputDTO } from '../types';
-import { inspectionService } from './inspection-service';
-import { tanksService } from './tanks-service';
+import { inspectionService, tanksService } from '.';
 
 export const reportsService = {
   async generateInspectionReport({
@@ -24,6 +23,28 @@ export const reportsService = {
     const report = {
       date: inspection.date,
       tankVerdict: inspection.tankVerdict,
+      tank,
+    };
+
+    return report;
+  },
+
+  async generateLastInspectionReport({ tankId }: InspectionReportInputDTO) {
+    const [tank] = await tanksService.getTanks({ id: tankId });
+
+    const [lastInspection] = await inspectionService.getInspectionList({
+      tankId,
+      sortBy: 'date',
+      sortOrder: 'desc',
+    });
+
+    if (!lastInspection || !tank) {
+      throw ApiError.NotFound('Inspection or tank not found');
+    }
+
+    const report = {
+      date: lastInspection.date,
+      tankVerdict: lastInspection.tankVerdict,
       tank,
     };
 
