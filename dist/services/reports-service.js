@@ -25,11 +25,7 @@ exports.reportsService = {
             if (inspection.tankId !== tank.id) {
                 throw api_error_1.ApiError.UnprocessableEntity('Inspection and tank do not match');
             }
-            const report = {
-                date: inspection.date,
-                tankVerdict: inspection.tankVerdict,
-                tank,
-            };
+            const report = Object.assign(Object.assign({}, inspection), { tank });
             return report;
         });
     },
@@ -44,11 +40,7 @@ exports.reportsService = {
             if (!lastInspection || !tank) {
                 throw api_error_1.ApiError.NotFound('Inspection or tank not found');
             }
-            const report = {
-                date: lastInspection.date,
-                tankVerdict: lastInspection.tankVerdict,
-                tank,
-            };
+            const report = Object.assign(Object.assign({}, lastInspection), { tank });
             return report;
         });
     },

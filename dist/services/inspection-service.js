@@ -8,6 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.inspectionService = void 0;
 const mongodb_1 = require("mongodb");
@@ -26,20 +37,22 @@ exports.inspectionService = {
         });
     },
     createInspection(_a) {
-        return __awaiter(this, arguments, void 0, function* ({ date, tankId, tankVerdict }) {
-            const newInspection = {
-                date: new Date(date),
-                tankId: mongodb_1.ObjectId.createFromHexString(tankId),
-                tankVerdict,
-                createdAt: new Date(),
-            };
+        return __awaiter(this, void 0, void 0, function* () {
+            var { date, tankId, tankVerdict } = _a, rest = __rest(_a, ["date", "tankId", "tankVerdict"]);
+            const normalizedData = (0, utils_1.normalizeInspectionData)(rest);
+            const newInspection = Object.assign(Object.assign({}, normalizedData), { date: new Date(date), tankId: mongodb_1.ObjectId.createFromHexString(tankId), tankVerdict, createdAt: new Date() });
             const { insertedId } = yield repositories_1.inspectionRepo.createInspection(newInspection);
             if (!insertedId)
                 throw api_error_1.ApiError.ServerError('Failed to create inspection record. Please try again later.');
-            yield _1.tanksService.updateTank({
-                id: tankId,
-                lastInspectionDate: new Date(date),
-            });
+            // Update the tank's last inspection date if the new inspection date is later
+            const [tank] = yield _1.tanksService.getTanks({ id: tankId });
+            if (new Date(newInspection.date).getTime() >
+                new Date(tank.lastInspectionDate).getTime()) {
+                yield _1.tanksService.updateTank({
+                    id: tankId,
+                    lastInspectionDate: newInspection.date,
+                });
+            }
             return (0, utils_1.inspectionModelMapper)(Object.assign(Object.assign({}, newInspection), { _id: insertedId }));
         });
     },

@@ -11,6 +11,10 @@ export const tanksRepo = {
     serialNumber,
     material,
     volume,
+    valve,
+    color,
+    status,
+    fillingType,
     startLastHydrotestDate,
     endLastHydrotestDate,
     startLastInspectionDate,
@@ -29,7 +33,7 @@ export const tanksRepo = {
     }
 
     if (internalNumber) {
-      filter.tankNumber = Number(internalNumber);
+      filter.internalNumber = Number(internalNumber);
     }
 
     if (serialNumber) {
@@ -44,31 +48,39 @@ export const tanksRepo = {
       filter.volume = Number(volume);
     }
 
+    if (valve) {
+      filter.valve = valve;
+    }
+
+    if (color) {
+      filter.color = color;
+    }
+
+    if (status) {
+      filter.status = status;
+    }
+
+    if (fillingType) {
+      filter.fillingType = fillingType;
+    }
+
     if (startLastHydrotestDate || endLastHydrotestDate) {
       filter.lastHydrotestDate = {};
       if (startLastHydrotestDate) {
-        filter.lastHydrotestDate.$gte = new Date(
-          startLastHydrotestDate as string
-        );
+        filter.lastHydrotestDate.$gte = new Date(startLastHydrotestDate);
       }
       if (endLastHydrotestDate) {
-        filter.lastHydrotestDate.$lte = new Date(
-          endLastHydrotestDate as string
-        );
+        filter.lastHydrotestDate.$lte = new Date(endLastHydrotestDate);
       }
     }
 
     if (startLastInspectionDate || endLastInspectionDate) {
       filter.lastInspectionDate = {};
       if (startLastInspectionDate) {
-        filter.lastInspectionDate.$gte = new Date(
-          startLastInspectionDate as string
-        );
+        filter.lastInspectionDate.$gte = new Date(startLastInspectionDate);
       }
       if (endLastInspectionDate) {
-        filter.lastInspectionDate.$lte = new Date(
-          endLastInspectionDate as string
-        );
+        filter.lastInspectionDate.$lte = new Date(endLastInspectionDate);
       }
     }
 

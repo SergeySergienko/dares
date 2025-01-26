@@ -1,4 +1,32 @@
-import { Grade, Material, TankModel } from '../../models';
+import {
+  Color,
+  FillingType,
+  Grade,
+  Manufacturer,
+  Material,
+  Status,
+  TankModel,
+  Valve,
+} from '../../models';
+
+export type TankInputDTO = {
+  internalNumber: string;
+  serialNumber: string;
+  manufacturer: Manufacturer;
+  workPressure: string;
+  material: Material;
+  volume: string;
+  valve?: Valve;
+  color: Color;
+  status: Status;
+  fillingType: FillingType;
+  firstHydrotestDate: Date;
+  lastHydrotestDate: Date;
+  lastInspectionDate: Date;
+  grade?: `${Grade}`;
+  manufactureDate?: Date;
+  terminationDate?: Date;
+};
 
 export type TankOutputDTO = TankModel & {
   id: string;
@@ -17,6 +45,10 @@ export type TankQuery = {
   serialNumber?: string;
   material?: Material;
   volume?: string;
+  valve?: Valve;
+  color?: Color;
+  status?: Status;
+  fillingType?: FillingType;
   startLastHydrotestDate?: string;
   endLastHydrotestDate?: string;
   startLastInspectionDate?: string;

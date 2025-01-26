@@ -21,8 +21,7 @@ export const reportsService = {
     }
 
     const report = {
-      date: inspection.date,
-      tankVerdict: inspection.tankVerdict,
+      ...inspection,
       tank,
     };
 
@@ -43,8 +42,7 @@ export const reportsService = {
     }
 
     const report = {
-      date: lastInspection.date,
-      tankVerdict: lastInspection.tankVerdict,
+      ...lastInspection,
       tank,
     };
 

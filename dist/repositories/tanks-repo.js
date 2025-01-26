@@ -26,13 +26,13 @@ const db_1 = require("../config/db");
 const utils_1 = require("../utils");
 exports.tanksRepo = {
     getTanks(_a) {
-        return __awaiter(this, arguments, void 0, function* ({ id, internalNumber, serialNumber, material, volume, startLastHydrotestDate, endLastHydrotestDate, startLastInspectionDate, endLastInspectionDate, startGradeValue, endGradeValue, limit = '10', sortBy = 'internalNumber', sortOrder = 'asc', page = '1', }) {
+        return __awaiter(this, arguments, void 0, function* ({ id, internalNumber, serialNumber, material, volume, valve, color, status, fillingType, startLastHydrotestDate, endLastHydrotestDate, startLastInspectionDate, endLastInspectionDate, startGradeValue, endGradeValue, limit = '10', sortBy = 'internalNumber', sortOrder = 'asc', page = '1', }) {
             const filter = {};
             if (id) {
                 filter._id = mongodb_1.ObjectId.createFromHexString(id);
             }
             if (internalNumber) {
-                filter.tankNumber = Number(internalNumber);
+                filter.internalNumber = Number(internalNumber);
             }
             if (serialNumber) {
                 filter.serialNumber = serialNumber;
@@ -42,6 +42,18 @@ exports.tanksRepo = {
             }
             if (volume) {
                 filter.volume = Number(volume);
+            }
+            if (valve) {
+                filter.valve = valve;
+            }
+            if (color) {
+                filter.color = color;
+            }
+            if (status) {
+                filter.status = status;
+            }
+            if (fillingType) {
+                filter.fillingType = fillingType;
             }
             if (startLastHydrotestDate || endLastHydrotestDate) {
                 filter.lastHydrotestDate = {};
