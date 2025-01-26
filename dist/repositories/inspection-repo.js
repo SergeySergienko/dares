@@ -14,7 +14,7 @@ const mongodb_1 = require("mongodb");
 const db_1 = require("../config/db");
 exports.inspectionRepo = {
     getInspectionList(_a) {
-        return __awaiter(this, arguments, void 0, function* ({ id, startDate, endDate, tankId, limit = '10', sortBy = 'date', sortOrder = 'desc', page = '1', }) {
+        return __awaiter(this, arguments, void 0, function* ({ id, startDate, endDate, tankId, tankNumber, limit = '10', sortBy = 'date', sortOrder = 'desc', page = '1', }) {
             const filter = {};
             if (id) {
                 filter._id = mongodb_1.ObjectId.createFromHexString(id);
@@ -30,6 +30,9 @@ exports.inspectionRepo = {
             }
             if (tankId) {
                 filter.tankId = mongodb_1.ObjectId.createFromHexString(tankId);
+            }
+            if (tankNumber) {
+                filter.tankNumber = Number(tankNumber);
             }
             return yield db_1.inspectionCollection
                 .find(filter)

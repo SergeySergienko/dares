@@ -18,6 +18,7 @@ export type InspectionQuery = {
   startDate?: string;
   endDate?: string;
   tankId?: string;
+  tankNumber?: string;
   limit?: string;
   sortBy?: 'date' | 'tankId';
   sortOrder?: 'asc' | 'desc';

@@ -9,6 +9,7 @@ export const inspectionRepo = {
     startDate,
     endDate,
     tankId,
+    tankNumber,
     limit = '10',
     sortBy = 'date',
     sortOrder = 'desc',
@@ -31,6 +32,10 @@ export const inspectionRepo = {
     }
     if (tankId) {
       filter.tankId = ObjectId.createFromHexString(tankId);
+    }
+
+    if (tankNumber) {
+      filter.tankNumber = Number(tankNumber);
     }
 
     return await inspectionCollection

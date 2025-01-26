@@ -3,6 +3,7 @@ import { ObjectId } from 'mongodb';
 export interface InspectionModel {
   date: Date;
   tankId: ObjectId;
+  tankNumber: number;
   external?: {
     heatDamage?: boolean;
     repainting?: boolean;
