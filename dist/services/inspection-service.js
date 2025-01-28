@@ -38,9 +38,9 @@ exports.inspectionService = {
     },
     createInspection(_a) {
         return __awaiter(this, void 0, void 0, function* () {
-            var { date, tankId, tankVerdict } = _a, rest = __rest(_a, ["date", "tankId", "tankVerdict"]);
+            var { date, tankId, tankVerdict, tankNumber } = _a, rest = __rest(_a, ["date", "tankId", "tankVerdict", "tankNumber"]);
             const normalizedData = (0, utils_1.normalizeInspectionData)(rest);
-            const newInspection = Object.assign(Object.assign({}, normalizedData), { date: new Date(date), tankId: mongodb_1.ObjectId.createFromHexString(tankId), tankVerdict, createdAt: new Date() });
+            const newInspection = Object.assign(Object.assign({}, normalizedData), { date: new Date(date), tankId: mongodb_1.ObjectId.createFromHexString(tankId), tankNumber: Number(tankNumber), tankVerdict, createdAt: new Date() });
             const { insertedId } = yield repositories_1.inspectionRepo.createInspection(newInspection);
             if (!insertedId)
                 throw api_error_1.ApiError.ServerError('Failed to create inspection record. Please try again later.');

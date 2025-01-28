@@ -33,6 +33,7 @@ export interface InspectionModel {
   };
   tankVerdict: Verdict;
   stickerAffixed?: boolean;
+  inspector: { name: string; pciNumber: string };
   createdAt: Date;
   updatedAt?: Date;
 }

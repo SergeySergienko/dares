@@ -20,6 +20,7 @@ export const inspectionService = {
     date,
     tankId,
     tankVerdict,
+    tankNumber,
     ...rest
   }: InspectionInputDTO) {
     const normalizedData = normalizeInspectionData(rest);
@@ -28,6 +29,7 @@ export const inspectionService = {
       ...normalizedData,
       date: new Date(date),
       tankId: ObjectId.createFromHexString(tankId),
+      tankNumber: Number(tankNumber),
       tankVerdict,
       createdAt: new Date(),
     };

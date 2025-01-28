@@ -2,10 +2,11 @@ import { InspectionModel } from '../../models';
 
 export type InspectionInputDTO = Omit<
   InspectionModel,
-  'date' | 'tankId' | 'createdAt' | 'updatedAt'
+  'date' | 'tankId' | 'tankNumber' | 'createdAt' | 'updatedAt'
 > & {
   date: string;
   tankId: string;
+  tankNumber: string;
 };
 
 export type InspectionOutputDTO = Omit<InspectionModel, 'tankId'> & {
