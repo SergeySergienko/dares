@@ -1,7 +1,11 @@
 import { ObjectId } from 'mongodb';
 import { ApiError } from '../exceptions/api-error';
 import { InspectionModel } from '../models';
-import { InspectionInputDTO, InspectionQuery } from '../types';
+import {
+  InspectionInputDTO,
+  InspectionQuery,
+  InspectionReportInputDTO,
+} from '../types';
 import { inspectionModelMapper, normalizeInspectionData } from '../utils';
 import { inspectionRepo } from '../repositories';
 import { tanksService } from '.';
@@ -14,6 +18,27 @@ export const inspectionService = {
     }
 
     return inspectionList.map(inspectionModelMapper);
+  },
+
+  async getInspectionByTankNumber({ tankNumber }: InspectionReportInputDTO) {
+    const [tank] = await tanksService.getTanks({ internalNumber: tankNumber });
+
+    const [lastInspection] = await inspectionService.getInspectionList({
+      tankNumber,
+      sortBy: 'date',
+      sortOrder: 'desc',
+    });
+
+    if (!lastInspection || !tank) {
+      throw ApiError.NotFound('Inspection or tank not found');
+    }
+
+    const report = {
+      ...lastInspection,
+      tank,
+    };
+
+    return report;
   },
 
   async createInspection({

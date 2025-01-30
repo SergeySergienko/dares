@@ -23,6 +23,20 @@ exports.inspectionController = {
             }
         });
     },
+    getInspectionByTankNumber(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { tankNumber } = req.params;
+                const report = yield services_1.inspectionService.getInspectionByTankNumber({
+                    tankNumber,
+                });
+                res.json(report);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    },
     createInspection(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

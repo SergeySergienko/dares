@@ -36,6 +36,21 @@ exports.inspectionService = {
             return inspectionList.map(utils_1.inspectionModelMapper);
         });
     },
+    getInspectionByTankNumber(_a) {
+        return __awaiter(this, arguments, void 0, function* ({ tankNumber }) {
+            const [tank] = yield _1.tanksService.getTanks({ internalNumber: tankNumber });
+            const [lastInspection] = yield exports.inspectionService.getInspectionList({
+                tankNumber,
+                sortBy: 'date',
+                sortOrder: 'desc',
+            });
+            if (!lastInspection || !tank) {
+                throw api_error_1.ApiError.NotFound('Inspection or tank not found');
+            }
+            const report = Object.assign(Object.assign({}, lastInspection), { tank });
+            return report;
+        });
+    },
     createInspection(_a) {
         return __awaiter(this, void 0, void 0, function* () {
             var { date, tankId, tankVerdict, tankNumber } = _a, rest = __rest(_a, ["date", "tankId", "tankVerdict", "tankNumber"]);

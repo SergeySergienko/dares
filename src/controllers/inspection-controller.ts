@@ -3,7 +3,9 @@ import {
   InspectionInputDTO,
   InspectionOutputDTO,
   InspectionQuery,
+  InspectionReportInputDTO,
   RequestWithBody,
+  RequestWithParams,
   RequestWithQuery,
 } from '../types';
 import { inspectionService } from '../services';
@@ -19,6 +21,23 @@ export const inspectionController = {
         req.query
       );
       res.json(inspectionList);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  async getInspectionByTankNumber(
+    req: RequestWithParams<InspectionReportInputDTO>,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { tankNumber } = req.params;
+      const report = await inspectionService.getInspectionByTankNumber({
+        tankNumber,
+      });
+
+      res.json(report);
     } catch (error) {
       next(error);
     }
