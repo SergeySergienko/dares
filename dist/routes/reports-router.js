@@ -7,3 +7,4 @@ exports.reportsRouter = (0, express_1.Router)();
 exports.reportsRouter.get('/maintenance/partsUsage', controllers_1.reportsController.generatePartsUsageReport);
 exports.reportsRouter.get('/inspection/generate/:inspectionId/:tankId', controllers_1.reportsController.generateInspectionReport);
 exports.reportsRouter.get('/inspection/generateLast/:tankId', controllers_1.reportsController.generateLastInspectionReport);
+exports.reportsRouter.get('/tank/:tankIdentifier?/:inspectionId?', controllers_1.reportsController.getLastInspectionByTankIdentifier);

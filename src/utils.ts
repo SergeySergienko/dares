@@ -29,6 +29,14 @@ export const isValidGrade = (value: number): value is Grade => {
   return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(value);
 };
 
+export const isTankId = (identifier: string): boolean => {
+  return /^[0-9a-fA-F]{24}$/.test(identifier);
+};
+
+export const isInternalNumber = (identifier: string): boolean => {
+  return /^\d{1,4}$/.test(identifier);
+};
+
 export const normalizeInspectionData = <T>(data: T): T => {
   if (Array.isArray(data)) {
     return data.map((item) => normalizeInspectionData(item)) as T;

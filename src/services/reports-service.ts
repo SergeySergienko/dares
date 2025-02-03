@@ -1,6 +1,7 @@
 import { ApiError } from '../exceptions/api-error';
-import { InspectionReportInputDTO } from '../types';
+import { InspectionQuery, InspectionReportInputDTO } from '../types';
 import { inspectionService, tanksService } from '.';
+import { isInternalNumber, isTankId } from '../utils';
 
 export const reportsService = {
   async generateInspectionReport({
@@ -46,6 +47,71 @@ export const reportsService = {
       tank,
     };
 
+    return report;
+  },
+
+  async getLastInspectionByTankIdentifier({
+    tankIdentifier,
+    inspectionId,
+  }: InspectionReportInputDTO) {
+    if (!tankIdentifier) {
+      throw ApiError.BadRequest(400, 'tankIdentifier is required');
+    }
+
+    let tankQueryObject;
+    if (isTankId(tankIdentifier)) {
+      tankQueryObject = { id: tankIdentifier };
+    } else if (isInternalNumber(tankIdentifier)) {
+      tankQueryObject = { internalNumber: tankIdentifier };
+    } else {
+      throw ApiError.BadRequest(400, 'Invalid tankIdentifier format');
+    }
+    const [tank] = await tanksService.getTanks(tankQueryObject);
+
+    let inspectionQueryObject:
+      | { id: string }
+      | {
+          tankId: string;
+          sortBy: InspectionQuery['sortBy'];
+          sortOrder: InspectionQuery['sortOrder'];
+        }
+      | {
+          tankNumber: string;
+          sortBy: InspectionQuery['sortBy'];
+          sortOrder: InspectionQuery['sortOrder'];
+        };
+
+    if (inspectionId) {
+      inspectionQueryObject = {
+        id: inspectionId,
+      };
+    } else if (isTankId(tankIdentifier)) {
+      inspectionQueryObject = {
+        tankId: tankIdentifier,
+        sortBy: 'date',
+        sortOrder: 'desc',
+      };
+    } else {
+      inspectionQueryObject = {
+        tankNumber: tankIdentifier,
+        sortBy: 'date',
+        sortOrder: 'desc',
+      };
+    }
+    const [inspection] = await inspectionService.getInspectionList(
+      inspectionQueryObject
+    );
+
+    if (!inspection || !tank) {
+      throw ApiError.NotFound('Inspection or tank not found');
+    }
+    if (inspection.tankId !== tank.id) {
+      throw ApiError.UnprocessableEntity('Inspection and tank do not match');
+    }
+    const report = {
+      ...inspection,
+      tank,
+    };
     return report;
   },
 };

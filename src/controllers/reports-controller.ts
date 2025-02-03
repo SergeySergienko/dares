@@ -97,4 +97,22 @@ export const reportsController = {
       next(error);
     }
   },
+
+  async getLastInspectionByTankIdentifier(
+    req: RequestWithParams<InspectionReportInputDTO>,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const { tankIdentifier, inspectionId } = req.params;
+      const report = await reportsService.getLastInspectionByTankIdentifier({
+        tankIdentifier,
+        inspectionId,
+      });
+
+      res.json(report);
+    } catch (error) {
+      next(error);
+    }
+  },
 };

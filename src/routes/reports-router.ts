@@ -17,3 +17,8 @@ reportsRouter.get(
   '/inspection/generateLast/:tankId',
   reportsController.generateLastInspectionReport
 );
+
+reportsRouter.get(
+  '/tank/:tankIdentifier?/:inspectionId?',
+  reportsController.getLastInspectionByTankIdentifier
+);

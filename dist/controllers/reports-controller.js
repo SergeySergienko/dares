@@ -85,4 +85,19 @@ exports.reportsController = {
             }
         });
     },
+    getLastInspectionByTankIdentifier(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { tankIdentifier, inspectionId } = req.params;
+                const report = yield services_1.reportsService.getLastInspectionByTankIdentifier({
+                    tankIdentifier,
+                    inspectionId,
+                });
+                res.json(report);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    },
 };
