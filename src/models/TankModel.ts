@@ -18,10 +18,9 @@ export interface TankModel {
   createdAt: Date;
   updatedAt?: Date;
 }
-
 export type Manufacturer = 'Catalina';
 export type Material = 'Aluminium' | 'Steel' | 'FRP' | 'Carbon Composite';
-export type Valve = 'YOKE' | 'DIN';
+export type Valve = 'YOKE' | 'DIN' | 'Other' | 'Unknown';
 export type Color = 'Not painted' | 'Black/White' | 'Black/Yellow';
 export type Status =
   | 'In use'

@@ -56,7 +56,7 @@ export type TankQuery = {
   startGradeValue?: `${Grade}`;
   endGradeValue?: `${Grade}`;
   limit?: string;
-  sortBy?: 'internalNumber' | 'lastHydrotestDate' | 'lastInspectionDate';
+  sortBy?: keyof Omit<TankModel, 'createdAt' | 'updatedAt'>;
   sortOrder?: 'asc' | 'desc';
   page?: string;
 };

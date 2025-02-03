@@ -1,5 +1,6 @@
 import express from 'express';
 import path from 'path';
+import cors from 'cors';
 import 'dotenv/config';
 import { connectDB } from './config/db';
 import {
@@ -12,7 +13,10 @@ import {
 import { errorMiddleware } from './middlewares';
 
 const app = express();
-app.use(express.static(path.join(__dirname, 'public'))).use(express.json());
+app
+  .use(express.static(path.join(__dirname, 'public')))
+  .use(cors())
+  .use(express.json());
 
 app
   .use('/api/inspection', inspectionRouter)

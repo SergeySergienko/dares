@@ -23,4 +23,15 @@ exports.tanksController = {
             }
         });
     },
+    updateTank(req, res, next) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const tank = yield services_1.tanksService.updateTank(req.body);
+                res.status(201).json(tank);
+            }
+            catch (error) {
+                next(error);
+            }
+        });
+    },
 };
