@@ -11,7 +11,7 @@ var __rest = (this && this.__rest) || function (s, e) {
     return t;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.normalizeInspectionData = exports.isInternalNumber = exports.isTankId = exports.isValidGrade = exports.tankModelMapper = exports.maintenanceModelMapper = exports.inspectionModelMapper = void 0;
+exports.normalizeInspectionData = exports.isInternalNumber = exports.isTankId = exports.parseGrade = exports.isValidGrade = exports.tankModelMapper = exports.maintenanceModelMapper = exports.inspectionModelMapper = void 0;
 const inspectionModelMapper = (inspection) => {
     const { _id, tankId } = inspection, rest = __rest(inspection, ["_id", "tankId"]);
     return Object.assign({ id: _id.toString(), tankId: tankId.toString() }, rest);
@@ -31,6 +31,11 @@ const isValidGrade = (value) => {
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(value);
 };
 exports.isValidGrade = isValidGrade;
+const parseGrade = (gradeStr) => {
+    const grade = Number(gradeStr);
+    return grade >= 1 && grade <= 10 ? grade : undefined;
+};
+exports.parseGrade = parseGrade;
 const isTankId = (identifier) => {
     return /^[0-9a-fA-F]{24}$/.test(identifier);
 };

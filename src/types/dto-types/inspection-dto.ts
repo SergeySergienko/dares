@@ -1,12 +1,13 @@
-import { InspectionModel } from '../../models';
+import { Grade, InspectionModel } from '../../models';
 
 export type InspectionInputDTO = Omit<
   InspectionModel,
-  'date' | 'tankId' | 'tankNumber' | 'createdAt' | 'updatedAt'
+  'date' | 'tankId' | 'tankNumber' | 'grade' | 'createdAt' | 'updatedAt'
 > & {
   date: string;
   tankId: string;
   tankNumber: string;
+  grade?: `${Grade}`;
 };
 
 export type InspectionOutputDTO = Omit<InspectionModel, 'tankId'> & {

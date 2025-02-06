@@ -53,19 +53,27 @@ exports.inspectionService = {
     },
     createInspection(_a) {
         return __awaiter(this, void 0, void 0, function* () {
-            var { date, tankId, tankVerdict, tankNumber } = _a, rest = __rest(_a, ["date", "tankId", "tankVerdict", "tankNumber"]);
+            var _b;
+            var { date, tankId, tankVerdict, tankNumber, grade: gradeStringValue } = _a, rest = __rest(_a, ["date", "tankId", "tankVerdict", "tankNumber", "grade"]);
             const normalizedData = (0, utils_1.normalizeInspectionData)(rest);
-            const newInspection = Object.assign(Object.assign({}, normalizedData), { date: new Date(date), tankId: mongodb_1.ObjectId.createFromHexString(tankId), tankNumber: Number(tankNumber), tankVerdict, createdAt: new Date() });
+            let grade;
+            if (gradeStringValue && (0, utils_1.isValidGrade)(+gradeStringValue)) {
+                grade = (0, utils_1.parseGrade)(gradeStringValue);
+            }
+            const newInspection = Object.assign(Object.assign({}, normalizedData), { date: new Date(date), tankId: mongodb_1.ObjectId.createFromHexString(tankId), tankNumber: Number(tankNumber), tankVerdict,
+                grade, createdAt: new Date() });
             const { insertedId } = yield repositories_1.inspectionRepo.createInspection(newInspection);
             if (!insertedId)
                 throw api_error_1.ApiError.ServerError('Failed to create inspection record. Please try again later.');
-            // Update the tank's last inspection date if the new inspection date is later
+            // Update the tank's data if the new inspection date is later
             const [tank] = yield _1.tanksService.getTanks({ id: tankId });
             if (new Date(newInspection.date).getTime() >
                 new Date(tank.lastInspectionDate).getTime()) {
                 yield _1.tanksService.updateTank({
                     id: tankId,
+                    grade: newInspection.grade,
                     lastInspectionDate: newInspection.date,
+                    valve: (_b = newInspection.valve) === null || _b === void 0 ? void 0 : _b.type,
                 });
             }
             return (0, utils_1.inspectionModelMapper)(Object.assign(Object.assign({}, newInspection), { _id: insertedId }));

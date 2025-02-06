@@ -1,12 +1,17 @@
 import { ObjectId } from 'mongodb';
 import { ApiError } from '../exceptions/api-error';
-import { InspectionModel } from '../models';
+import { Grade, InspectionModel } from '../models';
 import {
   InspectionInputDTO,
   InspectionQuery,
   InspectionReportInputDTO,
 } from '../types';
-import { inspectionModelMapper, normalizeInspectionData } from '../utils';
+import {
+  inspectionModelMapper,
+  isValidGrade,
+  normalizeInspectionData,
+  parseGrade,
+} from '../utils';
 import { inspectionRepo } from '../repositories';
 import { tanksService } from '.';
 
@@ -46,9 +51,15 @@ export const inspectionService = {
     tankId,
     tankVerdict,
     tankNumber,
+    grade: gradeStringValue,
     ...rest
   }: InspectionInputDTO) {
     const normalizedData = normalizeInspectionData(rest);
+
+    let grade: Grade | undefined;
+    if (gradeStringValue && isValidGrade(+gradeStringValue)) {
+      grade = parseGrade(gradeStringValue);
+    }
 
     const newInspection: InspectionModel = {
       ...normalizedData,
@@ -56,6 +67,7 @@ export const inspectionService = {
       tankId: ObjectId.createFromHexString(tankId),
       tankNumber: Number(tankNumber),
       tankVerdict,
+      grade,
       createdAt: new Date(),
     };
     const { insertedId } = await inspectionRepo.createInspection(newInspection);
@@ -64,7 +76,7 @@ export const inspectionService = {
         'Failed to create inspection record. Please try again later.'
       );
 
-    // Update the tank's last inspection date if the new inspection date is later
+    // Update the tank's data if the new inspection date is later
     const [tank] = await tanksService.getTanks({ id: tankId });
     if (
       new Date(newInspection.date).getTime() >
@@ -72,7 +84,9 @@ export const inspectionService = {
     ) {
       await tanksService.updateTank({
         id: tankId,
+        grade: newInspection.grade,
         lastInspectionDate: newInspection.date,
+        valve: newInspection.valve?.type,
       });
     }
 

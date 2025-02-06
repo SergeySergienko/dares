@@ -1,4 +1,5 @@
 import { ObjectId } from 'mongodb';
+import { Grade, Valve } from './TankModel';
 
 export interface InspectionModel {
   date: Date;
@@ -25,7 +26,7 @@ export interface InspectionModel {
     verdict?: Verdict;
   };
   valve?: {
-    type?: 'YOKE' | 'DIN' | 'Other';
+    type?: Valve;
     burstDiskReplaced?: boolean;
     oRingReplaced?: boolean;
     dipTubeReplaced?: boolean;
@@ -33,6 +34,7 @@ export interface InspectionModel {
   };
   tankVerdict: Verdict;
   stickerAffixed?: boolean;
+  grade?: Grade;
   inspector: { name: string; pciNumber: string };
   createdAt: Date;
   updatedAt?: Date;

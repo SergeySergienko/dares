@@ -29,6 +29,11 @@ export const isValidGrade = (value: number): value is Grade => {
   return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(value);
 };
 
+export const parseGrade = (gradeStr: `${Grade}`): Grade | undefined => {
+  const grade = Number(gradeStr) as Grade;
+  return grade >= 1 && grade <= 10 ? grade : undefined;
+};
+
 export const isTankId = (identifier: string): boolean => {
   return /^[0-9a-fA-F]{24}$/.test(identifier);
 };

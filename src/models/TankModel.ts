@@ -5,7 +5,7 @@ export interface TankModel {
   workPressure: number;
   material: Material;
   volume: number;
-  valve?: Valve;
+  valve: Valve;
   color: Color;
   status: Status;
   fillingType: FillingType;
